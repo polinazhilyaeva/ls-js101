@@ -100,15 +100,9 @@ For instance:
 
 merge([1, 2, 3], [4, 5, 6]); // => [1, 4, 2, 5, 3, 6]
 
-Clarifying questions:
-- Is it required that both arrays have the same length?
-- If not, what should we add for the missing values if the lengths of two arrays are different?
-  merge([1, 2, 3, 8, 7], [4, 5, 6]); // => [1, 4, 2, 5, 3, 6, 8, ??, 7, ??]
-  merge([1, 2, 3], [4, 5, 6, 10, 9]); // => [1, 4, 2, 5, 3, 6, ??, 10, ??, 9]
-
 START
 
-# Given two collections of numbers called 'array1' and 'array2'
+# Given two collections of numbers called 'array1' and 'array2' with the same number of elements
 
 SET resultArray = empty array
 SET iterator = 0
@@ -117,13 +111,10 @@ WHILE iterator < length of array1
   SET currentElement1 = element of array1 at index 'iterator'
   push currentElement1 to resultArray
 
-  IF iterator < length of array2
-    SET currentElement2 = element of array2 at position 'iterator'
-    push currentElement2 to resultArray
-  ELSE
-    push ?? to resultArray 
+  SET currentElement2 = element of array2 at position 'iterator'
+  push currentElement2 to resultArray
 
-  iterator1 = iterator1 + 1
+  iterator = iterator + 1
 
 PRINT resultArray
 
