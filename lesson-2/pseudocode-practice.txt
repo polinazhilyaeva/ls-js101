@@ -1,0 +1,130 @@
+* a function that returns the sum of two numbers
+
+START
+
+READ number1
+READ number2
+
+SET sum = number1 + number2
+
+PRINT sum
+
+END
+
+******************************
+* a function that takes an array of strings, and returns a string that is all those strings concatenated together
+
+Given a collection of strings.
+Set the result string to an initial empty string
+
+Iterate through the collection one by one
+- for each iteration concatenate the current string with the result string
+
+After iterating through all the collection, return the result string.
+
+START
+
+# Given a collection of strings called 'strings'
+
+SET iterator = 0
+SET resultString = ''
+
+WHILE  iterator < length of 'strings'
+  SET currentString = value within 'strings' collection at space 'iterator'
+  SET resultString = resultString concatenate with currentString
+  iterator = iterator + 1
+
+PRINT resultString
+
+END
+
+******************************
+* a method that takes an array of integers, and returns a new array with every other element 
+from the original array, starting with the first element. 
+
+For instance:
+
+everyOther([1,4,7,2,5]); // => [1,7,5]
+
+START
+
+# Given a collection of integers called 'integers'
+
+SET iterator = 0
+SET resultArray = empty array
+
+WHILE iterator < length of 'integers'
+  SET currentInteger = value within 'integers' collection at space 'iterator'
+  push currentInteger to resultArray
+  
+  iterator = iterator + 2
+  
+PRINT resultArray
+
+END
+
+*****************************
+
+* a function that determines the index of the 3rd occurrence of a given character in a string. 
+For instance, if the given character is 'x' and the string is 'axbxcdxex', the function should return 6 (the index of the 3rd 'x'). 
+If the given character does not occur at least 3 times, return null.
+
+START
+
+# Given a character called 'targetCharacter'
+
+READ string
+SET iterator = 0
+SET foundIndex = null
+SET counter = 0
+
+WHILE (iterator < length of string) AND (counter < 3)
+  SET currentCharacter = value within the string at space 'iterator'
+  IF currentCharacter = targetCharacter
+    SET counter = counter + 1
+  IF counter = 3
+    SET foundIndex = iterator
+
+  iterator = iterator + 1
+
+PRINT foundIndex
+
+END
+
+****************************
+* a function that takes two arrays of numbers and returns the result of merging the arrays. 
+The elements of the first array should become the elements at the even indexes of the returned array, 
+while the elements of the second array should become the elements at the odd indexes. 
+
+For instance:
+
+merge([1, 2, 3], [4, 5, 6]); // => [1, 4, 2, 5, 3, 6]
+
+Clarifying questions:
+- Is it required that both arrays have the same length?
+- If not, what should we add for the missing values if the lengths of two arrays are different?
+  merge([1, 2, 3, 8, 7], [4, 5, 6]); // => [1, 4, 2, 5, 3, 6, 8, ??, 7, ??]
+  merge([1, 2, 3], [4, 5, 6, 10, 9]); // => [1, 4, 2, 5, 3, 6, ??, 10, ??, 9]
+
+START
+
+# Given two collections of numbers called 'array1' and 'array2'
+
+SET resultArray = empty array
+SET iterator = 0
+
+WHILE iterator < length of array1
+  SET currentElement1 = element of array1 at index 'iterator'
+  push currentElement1 to resultArray
+
+  IF iterator < length of array2
+    SET currentElement2 = element of array2 at position 'iterator'
+    push currentElement2 to resultArray
+  ELSE
+    push ?? to resultArray 
+
+  iterator1 = iterator1 + 1
+
+PRINT resultArray
+
+END
