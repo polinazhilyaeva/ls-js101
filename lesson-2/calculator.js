@@ -1,40 +1,56 @@
-/* Ask the user for the first number.
- * Ask the user for the second number.
- * Ask the user for an operation to perform.
- * Perform the operation on the two numbers.
- * Print the result to the terminal.
- */
-
 const readLine = require('readline-sync');
 
-console.log('Welcome to Calculator!');
+function prompt(message) {
+  console.log(`=> ${message}`);
+}
 
-console.log('What is the first number?');
-let firstNumber = Number(readLine.question());
+function invalidNumber(number) {
+  return number.trimStart() === '' || Number.isNaN(Number(number));
+}
 
-console.log('What is the second number?');
-let secondNumber = Number(readLine.question());
+prompt('Welcome to Calculator!');
 
-console.log('What operation would you like to perform?\n1) Add 2) Subtract 3) Multiply 4) Divide');
+prompt('What is the first number?');
+let firstNumber = readLine.question();
+
+while (invalidNumber(firstNumber)) {
+  prompt("Hmm... that doesn't look like a valid number. Please try once more.");
+  firstNumber = readLine.question();
+}
+
+prompt('What is the second number?');
+let secondNumber = readLine.question();
+
+while (invalidNumber(secondNumber)) {
+  prompt("Hmm... that doesn't look like a valid number. Please try once more.");
+  secondNumber = readLine.question();
+}
+
+prompt('What operation would you like to perform?\n   1 - Add\n   2 - Subtract\n   3 - Multiply\n   4 - Divide');
 let operation = readLine.question();
+
+while (!['1', '2', '3', '4'].includes(operation)) {
+  prompt('You must type 1, 2, 3 or 4');
+  operation = readLine.question();
+}
 
 let result;
 
 switch (operation) {
   case '1':
-    result = firstNumber + secondNumber;
-    console.log(`${firstNumber} + ${secondNumber} = ${result}`);
+    result = Number(firstNumber) + Number(secondNumber);
+    prompt(`${firstNumber} + ${secondNumber} = ${result}`);
     break;
   case '2':
-    result = firstNumber - secondNumber;
-    console.log(`${firstNumber} - ${secondNumber} = ${result}`);
+    result = Number(firstNumber) - Number(secondNumber);
+    prompt(`${firstNumber} - ${secondNumber} = ${result}`);
     break;
   case '3':
-    result = firstNumber * secondNumber;
-    console.log(`${firstNumber} * ${secondNumber} = ${result}`);
+    result = Number(firstNumber) * Number(secondNumber);
+    prompt(`${firstNumber} * ${secondNumber} = ${result}`);
     break;
   case '4':
-    result = firstNumber / secondNumber;
-    console.log(`${firstNumber} / ${secondNumber} = ${result}`);
+    result = Number(firstNumber) / Number(secondNumber);
+    prompt(`${firstNumber} / ${secondNumber} = ${result}`);
     break;
 }
