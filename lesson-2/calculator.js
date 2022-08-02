@@ -1,66 +1,79 @@
 const readLine = require('readline-sync');
 const MESSAGES = require('./calculator_messages.json');
+const LANGUAGE = 'en';
 
 function prompt(message) {
   console.log(`=> ${message}`);
 }
 
-function invalidNumber(number) {
-  return number.trimStart() === '' || Number.isNaN(Number(number));
+function localizedPrompt(message) {
+  console.log(`=> ${MESSAGES[LANGUAGE][message]}`);
 }
 
-prompt(MESSAGES.welcome);
+function isInvalidNumber(input) {
+  return input.trimStart() === '' || Number.isNaN(Number(input));
+}
+
+function getNumberFromUser(prompt) {
+  localizedPrompt(prompt);
+  let firstInput = readLine.question();
+
+  while (isInvalidNumber(firstInput)) {
+    localizedPrompt('invalidNumber');
+    firstInput = readLine.question();
+  }
+
+  return Number(firstInput);
+}
+
+function getOperationFromUser() {
+  localizedPrompt('chooseOperation');
+  let operation = readLine.question();
+
+  while (!['1', '2', '3', '4'].includes(operation)) {
+    localizedPrompt('invalidOperation');
+    operation = readLine.question();
+  }
+
+  return operation;
+}
+
+function calculate(number1, number2, action) {
+  localizedPrompt('result');
+
+  switch (action) {
+    case '1':
+      prompt(`${number1} + ${number2} = ${number1 + number2}`);
+      break;
+    case '2':
+      prompt(`${number1} - ${number2} = ${number1 - number2}`);
+      break;
+    case '3':
+      prompt(`${number1} * ${number2} = ${number1 * number2}`);
+      break;
+    case '4':
+      prompt(`${number1} / ${number2} = ${number1 / number2}`);
+      break;
+  }
+}
+
+// Start of the main program
+
+localizedPrompt('welcome');
 
 let repeat;
 
 do {
-  prompt(MESSAGES.askFirstNumber);
-  let firstNumber = readLine.question();
+  let firstNumber = getNumberFromUser('askFirstNumber');
+  let secondNumber = getNumberFromUser('askSecondNumber');
+  let operation = getOperationFromUser();
 
-  while (invalidNumber(firstNumber)) {
-    prompt(MESSAGES.invalidNumber);
-    firstNumber = readLine.question();
-  }
+  calculate(firstNumber, secondNumber, operation);
 
-  prompt(MESSAGES.askSecondNumber);
-  let secondNumber = readLine.question();
-
-  while (invalidNumber(secondNumber)) {
-    prompt(MESSAGES.invalidNumber);
-    secondNumber = readLine.question();
-  }
-
-  prompt(MESSAGES.chooseOperation);
-  let operation = readLine.question();
-
-  while (!['1', '2', '3', '4'].includes(operation)) {
-    prompt(MESSAGES.invalidOperation);
-    operation = readLine.question();
-  }
-
-  let result;
-
-  switch (operation) {
-    case '1':
-      result = Number(firstNumber) + Number(secondNumber);
-      prompt(`${firstNumber} + ${secondNumber} = ${result}`);
-      break;
-    case '2':
-      result = Number(firstNumber) - Number(secondNumber);
-      prompt(`${firstNumber} - ${secondNumber} = ${result}`);
-      break;
-    case '3':
-      result = Number(firstNumber) * Number(secondNumber);
-      prompt(`${firstNumber} * ${secondNumber} = ${result}`);
-      break;
-    case '4':
-      result = Number(firstNumber) / Number(secondNumber);
-      prompt(`${firstNumber} / ${secondNumber} = ${result}`);
-      break;
-  }
-
-  prompt(MESSAGES.askAnotherCalculation);
+  localizedPrompt('askAnotherCalculation');
   let answer = readLine.question().toLowerCase()[0];
   repeat = answer === 'y';
 
 } while (repeat);
+
+localizedPrompt('goodBye');

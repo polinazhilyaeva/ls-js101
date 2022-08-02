@@ -1,9 +1,24 @@
 {
-  "welcome": "Welcome to Calculator!",
-  "askFirstNumber": "What is the first number?",
-  "askSecondNumber": "What is the second number?",
-  "invalidNumber": "Hmm... that doesn't look like a valid number. Please try once more.",
-  "chooseOperation": "What operation would you like to perform?\n   1 - Add\n   2 - Subtract\n   3 - Multiply\n   4 - Divide",
-  "invalidOperation": "You must type 1, 2, 3 or 4",
-  "askAnotherCalculation": "Do you want to perform another calculation? Type 'y' if yes."
+  "en": {
+    "welcome": "Welcome to Calculator!",
+    "askFirstNumber": "What is the first number?",
+    "askSecondNumber": "What is the second number?",
+    "invalidNumber": "Hmm... that doesn't look like a valid number. Please try once more.",
+    "chooseOperation": "What operation would you like to perform?\n   1 - Add\n   2 - Subtract\n   3 - Multiply\n   4 - Divide",
+    "invalidOperation": "You must type 1, 2, 3 or 4",
+    "askAnotherCalculation": "Do you want to perform another calculation? Type 'y' if yes.",
+    "result": "Result:",
+    "goodBye": "Good bye!"
+  },
+  "uk": {
+    "welcome": "Ласкаво просимо до Калькулятору!",
+    "askFirstNumber": "Введіть перше число:",
+    "askSecondNumber": "Введіть друге число:",
+    "invalidNumber": "Хмм... це не виглядає, як валідне число. Будь ласка, спробуйте ще раз.",
+    "chooseOperation": "Яку операцію Ви хочете виконати?\n   1 - Додавання\n   2 - Віднімання\n   3 - Множення\n   4 - Ділення",
+    "invalidOperation": "Ви маєте ввести 1, 2, 3 або 4",
+    "askAnotherCalculation": "Чи хочете Ви виконати ще одне обчислення? Введіть 'y', якщо так.",
+    "result": "Результат:",
+    "goodBye": "До побачення!"
+  }
 }
