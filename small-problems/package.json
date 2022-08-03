@@ -1,0 +1,14 @@
+{
+  "name": "small-problems",
+  "version": "1.0.0",
+  "description": "",
+  "main": "isnt-it-odd.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "readline-sync": "^1.4.10"
+  }
+}
