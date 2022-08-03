@@ -25,10 +25,7 @@ function logOddNumbers(start, end) {
   }
 }
 
-console.log('Please enter the start number:');
-let startNumber = Number(readLine.question());
-
-console.log('Please enter the end number:');
-let endNumber = Number(readLine.question());
+let startNumber = Number(readLine.question('Please enter the start number: '));
+let endNumber = Number(readLine.question('Please enter the end number: '));
 
 logOddNumbers(startNumber, endNumber);
