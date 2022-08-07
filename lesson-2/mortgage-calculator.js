@@ -25,6 +25,21 @@ function readUserInput() {
   return readLine.question('---> ');
 }
 
+function getValidChoice(startNumber, choicesCount) {
+  let choice = Number(readUserInput());
+
+  while (
+    choice < startNumber
+    || choice > choicesCount
+    || Number.isNaN(choice)
+  ) {
+    console.log(`Please type a digit between 1 and ${choicesCount}`);
+    choice = Number(readUserInput());
+  }
+
+  return choice;
+}
+
 function getLanguageFromUser() {
   const languages = Object.keys(TRANSLATIONS);
   const languagesCount = languages.length;
@@ -33,16 +48,9 @@ function getLanguageFromUser() {
     console.log(`${getTranslatedMessage('chooseLanguage', languages[index])} ${index + 1}`);
   }
 
-  let languageChoice = Number(readUserInput());
-  let language = languages[languageChoice - 1];
+  let languageChoice = getValidChoice(1, languagesCount);
 
-  while (!languages.includes(language)) {
-    console.log(`Please type a digit between 1 and ${languagesCount}`);
-    languageChoice = readUserInput();
-    language = languages[Number(languageChoice) - 1];
-  }
-
-  return language;
+  return languages[languageChoice - 1];
 }
 
 function sayWelcome(language) {
@@ -55,21 +63,14 @@ function sayGoodbye(language) {
 
 function getCurrencyFromUser(currencies, language) {
   let currenciesCount = currencies.length;
+
   console.log(getTranslatedMessage('chooseCurrency', language));
 
   for (let index = 0; index < currenciesCount; index += 1) {
     console.log(`${index + 1} - ${currencies[index].currencyName}`);
   }
 
-  let currencyChoice = Number(readUserInput());
-
-  while (currencyChoice < 1
-    || currencyChoice > currenciesCount
-    || Number.isNaN(currencyChoice)
-  ) {
-    console.log(`Please type a digit between 1 and ${currenciesCount}`);
-    currencyChoice = Number(readUserInput());
-  }
+  let currencyChoice = getValidChoice(1, currenciesCount);
 
   return currencies[currencyChoice - 1];
 }
