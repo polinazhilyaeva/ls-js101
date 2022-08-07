@@ -1,0 +1,30 @@
+{
+  "en": {
+    "messages": {
+      "chooseLanguage": "Would you like to continue in English? - Type",
+      "welcome": "Welcome to the Mortgage Calculator!",
+      "chooseCurrency": "Please choose the currency:",
+      "enterLoanAmount": "Enter a loan amount in",
+      "invalidNumber": "Please make sure you enter a valid number which is greater than zero. Let's try once more.",
+      "enterRate": "Enter a percentage rate in % (e.g.: for 3% just type 3):",
+      "enterDuration": "Enter a loan duration in years:",
+      "yourMonthlyPayment": "Your monthly payment is:",
+      "anotherCalculation": "Do you want to perform another calculation? Type 'y' if yes:",
+      "goodBye": "Good bye!"
+    }
+  },
+  "uk": {
+    "messages": {
+      "chooseLanguage": "Чи хотіли б Ви продовжити українською? - Введіть",
+      "welcome": "Ласкаво просимо до Іпотечного Калькулятору!",
+      "chooseCurrency": "Будь ласка, оберіть валюту:",
+      "enterLoanAmount": "Введіть суму позики в",
+      "invalidNumber": "Будь ласка, переконайтеся, що ви ввели дійсне число більше нуля. Давайте спробуємо ще раз.",
+      "enterRate": "Введіть відсоткову ставку у відсотках (наприклад, для 3% просто введіть 3):",
+      "enterDuration": "Введіть термін позики в роках:",
+      "yourMonthlyPayment": "Ваш щомісячний платіж становить:",
+      "anotherCalculation": "Чи хочете Ви виконати ще одне обчислення? Введіть 'y', якщо так:",
+      "goodBye": "До побачення!"
+    }
+  }
+}
