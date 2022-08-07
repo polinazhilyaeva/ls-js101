@@ -142,7 +142,7 @@ function doesUserWantToRepeat(language) {
 
 // Start of the main program
 
-let language = getLanguageFromUser();
+const language = getLanguageFromUser();
 
 sayWelcome(language);
 
