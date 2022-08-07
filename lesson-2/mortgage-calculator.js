@@ -41,6 +41,14 @@ function getLanguageFromUser() {
   return language;
 }
 
+function sayWelcome(language) {
+  console.log(getTranslatedMessage('welcome', language));
+}
+
+function sayGoodbye(language) {
+  console.log(getTranslatedMessage('goodBye', language));
+}
+
 function getCurrencyFromUser(currencies, language) {
   let currenciesCount = currencies.length;
   console.log(getTranslatedMessage('chooseCurrency', language));
@@ -136,9 +144,9 @@ function doesUserWantToRepeat(language) {
 
 let language = getLanguageFromUser();
 
-console.log(getTranslatedMessage('welcome', language));
+sayWelcome(language);
 
-let repeat;
+let repeat = false;
 
 do {
   let { currencyName, currencySign } =
@@ -159,4 +167,4 @@ do {
   repeat = doesUserWantToRepeat(language);
 } while (repeat);
 
-console.log(getTranslatedMessage('goodBye', language));
+sayGoodbye();

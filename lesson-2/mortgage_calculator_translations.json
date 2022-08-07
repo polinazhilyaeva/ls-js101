@@ -2,7 +2,7 @@
   "en": {
     "messages": {
       "chooseLanguage": "Would you like to continue in English? - Type",
-      "welcome": "Welcome to the Mortgage Calculator!",
+      "welcome": "Hello! Welcome to the Mortgage Calculator!",
       "chooseCurrency": "Please choose the currency:",
       "enterLoanAmount": "Enter a loan amount in",
       "invalidNumber": "Please make sure you enter a valid number which is greater than zero. Let's try once more.",
@@ -16,7 +16,7 @@
   "uk": {
     "messages": {
       "chooseLanguage": "Чи хотіли б Ви продовжити українською? - Введіть",
-      "welcome": "Ласкаво просимо до Іпотечного Калькулятору!",
+      "welcome": "Вітання! Ласкаво просимо до Іпотечного Калькулятору!",
       "chooseCurrency": "Будь ласка, оберіть валюту:",
       "enterLoanAmount": "Введіть суму позики в",
       "invalidNumber": "Будь ласка, переконайтеся, що ви ввели дійсне число більше нуля. Давайте спробуємо ще раз.",
