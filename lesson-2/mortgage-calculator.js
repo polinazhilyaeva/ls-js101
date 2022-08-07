@@ -40,8 +40,8 @@ function getValidChoice(choicesCount) {
   return choice;
 }
 
-function getLanguageFromUser() {
-  const languages = Object.keys(TRANSLATIONS);
+function getLanguageFromUser(translations) {
+  const languages = Object.keys(translations);
   const languagesCount = languages.length;
 
   for (let index = 0; index < languagesCount; index += 1) {
@@ -147,7 +147,7 @@ function doesUserWantToRepeat(language) {
 
 // Start of the main program
 
-const language = getLanguageFromUser();
+const language = getLanguageFromUser(TRANSLATIONS);
 
 sayWelcome(language);
 
