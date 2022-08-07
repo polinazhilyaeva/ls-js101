@@ -139,7 +139,7 @@ function printMonthlyPayment(monthlyPayment, currencySign, language) {
   console.log(`${getTranslatedMessage('yourMonthlyPayment', language)} ${currencySign}${monthlyPayment.toFixed(2)}`);
 }
 
-function doesUserWantToRepeat(language) {
+function userWantsToRepeat(language) {
   console.log(getTranslatedMessage('anotherCalculation', language));
   let answer = readUserInput();
   return answer.toLowerCase() === 'y';
@@ -151,9 +151,7 @@ const language = getLanguageFromUser(TRANSLATIONS);
 
 sayWelcome(language);
 
-let repeat = false;
-
-do {
+while (true) {
   let { currencyName, currencySign } =
     getCurrencyFromUser(CURRENCIES, language);
 
@@ -169,7 +167,8 @@ do {
   );
 
   printMonthlyPayment(monthlyPayment, currencySign, language);
-  repeat = doesUserWantToRepeat(language);
-} while (repeat);
+
+  if (!userWantsToRepeat(language)) break;
+}
 
 sayGoodbye(language);
