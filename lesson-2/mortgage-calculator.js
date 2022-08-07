@@ -25,11 +25,11 @@ function readUserInput() {
   return readLine.question('---> ');
 }
 
-function getValidChoice(startNumber, choicesCount) {
+function getValidChoice(choicesCount) {
   let choice = Number(readUserInput());
 
   while (
-    choice < startNumber
+    choice < 1
     || choice > choicesCount
     || Number.isNaN(choice)
   ) {
@@ -48,7 +48,7 @@ function getLanguageFromUser() {
     console.log(`${getTranslatedMessage('chooseLanguage', languages[index])} ${index + 1}`);
   }
 
-  let languageChoice = getValidChoice(1, languagesCount);
+  let languageChoice = getValidChoice(languagesCount);
 
   return languages[languageChoice - 1];
 }
@@ -70,7 +70,7 @@ function getCurrencyFromUser(currencies, language) {
     console.log(`${index + 1} - ${currencies[index].currencyName}`);
   }
 
-  let currencyChoice = getValidChoice(1, currenciesCount);
+  let currencyChoice = getValidChoice(currenciesCount);
 
   return currencies[currencyChoice - 1];
 }
