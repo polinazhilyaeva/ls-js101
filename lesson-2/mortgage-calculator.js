@@ -21,6 +21,10 @@ function getTranslatedMessage(message, language) {
   return TRANSLATIONS[language]['messages'][message];
 }
 
+function readUserInput() {
+  return readLine.question('---> ');
+}
+
 function getLanguageFromUser() {
   const languages = Object.keys(TRANSLATIONS);
   const languagesCount = languages.length;
@@ -29,12 +33,12 @@ function getLanguageFromUser() {
     console.log(`${getTranslatedMessage('chooseLanguage', languages[index])} ${index + 1}`);
   }
 
-  let languageChoice = Number(readLine.question('---> '));
+  let languageChoice = Number(readUserInput());
   let language = languages[languageChoice - 1];
 
   while (!languages.includes(language)) {
     console.log(`Please type a digit between 1 and ${languagesCount}`);
-    languageChoice = readLine.question('---> ');
+    languageChoice = readUserInput();
     language = languages[Number(languageChoice) - 1];
   }
 
@@ -57,14 +61,14 @@ function getCurrencyFromUser(currencies, language) {
     console.log(`${index + 1} - ${currencies[index].currencyName}`);
   }
 
-  let currencyChoice = Number(readLine.question('---> '));
+  let currencyChoice = Number(readUserInput());
 
   while (currencyChoice < 1
     || currencyChoice > currenciesCount
     || Number.isNaN(currencyChoice)
   ) {
     console.log(`Please type a digit between 1 and ${currenciesCount}`);
-    currencyChoice = Number(readLine.question('---> '));
+    currencyChoice = Number(readUserInput());
   }
 
   return currencies[currencyChoice - 1];
@@ -84,11 +88,11 @@ function isInvalidNumber(input) {
 
 function getLoanAmountFromUser(currencyName, language) {
   console.log(`${getTranslatedMessage('enterLoanAmount', language)} ${currencyName}:`);
-  let loanAmount = readLine.question('---> ');
+  let loanAmount = readUserInput();
 
   while (isInvalidNumber(loanAmount)) {
     console.log(getTranslatedMessage('invalidNumber', language));
-    loanAmount = readLine.question('---> ');
+    loanAmount = readUserInput();
   }
 
   return loanAmount;
@@ -96,11 +100,11 @@ function getLoanAmountFromUser(currencyName, language) {
 
 function getAnnualPercentageRateFromUser(language) {
   console.log(getTranslatedMessage('enterRate', language));
-  let annualPercentageRate = readLine.question('---> ');
+  let annualPercentageRate = readUserInput();
 
   while (isInvalidNumber(annualPercentageRate)) {
     console.log(getTranslatedMessage('invalidNumber', language));
-    annualPercentageRate = readLine.question('---> ');
+    annualPercentageRate = readUserInput();
   }
 
   return annualPercentageRate;
@@ -108,11 +112,11 @@ function getAnnualPercentageRateFromUser(language) {
 
 function getLoanDurationYearsFromUser(language) {
   console.log(getTranslatedMessage('enterDuration', language));
-  let loanDurationYears = readLine.question('---> ');
+  let loanDurationYears = readUserInput();
 
   while (isInvalidNumber(loanDurationYears)) {
     console.log(getTranslatedMessage('invalidNumber', language));
-    loanDurationYears = readLine.question('---> ');
+    loanDurationYears = readUserInput();
   }
 
   return loanDurationYears;
@@ -136,7 +140,7 @@ function printMonthlyPayment(monthlyPayment, currencySign, language) {
 
 function doesUserWantToRepeat(language) {
   console.log(getTranslatedMessage('anotherCalculation', language));
-  let answer = readLine.question('---> ');
+  let answer = readUserInput();
   return answer.toLowerCase() === 'y';
 }
 
@@ -167,4 +171,4 @@ do {
   repeat = doesUserWantToRepeat(language);
 } while (repeat);
 
-sayGoodbye();
+sayGoodbye(language);
