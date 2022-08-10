@@ -1,5 +1,6 @@
 const readLine = require('readline-sync');
 const TRANSLATIONS = require('./mortgage_calculator_translations.json');
+const NUMBER_OF_MONTHS_IN_A_YEAR = 12;
 const CURRENCIES = [
   {
     currencyName: 'USD (U.S. Dollar)',
@@ -157,10 +158,11 @@ while (true) {
 
   let loanAmount = getLoanAmountFromUser(currencyName, language);
   let annualRatePercents = getAnnualPercentageRateFromUser(language);
-  let loanDurationMonths = getLoanDurationYearsFromUser(language) * 12;
+  let loanDurationMonths = getLoanDurationYearsFromUser(language)
+    * NUMBER_OF_MONTHS_IN_A_YEAR;
 
   let annualInterestRate = annualRatePercents / 100;
-  let monthlyInterestRate = annualInterestRate / 12;
+  let monthlyInterestRate = annualInterestRate / NUMBER_OF_MONTHS_IN_A_YEAR;
 
   let monthlyPayment = calculateMonthlyPayment(
     loanAmount, monthlyInterestRate, loanDurationMonths
