@@ -1,23 +1,30 @@
 const readLine = require('readline-sync');
-const VALID_CHOICES = ['rock', 'paper', 'scissors'];
+const VALID_CHOICES = ['rock', 'paper', 'scissors', 'lizard', 'spock'];
+const WINNING_COMBINATIONS = {
+  rock: ['scissors', 'lizard'],
+  paper: ['rock', 'spock'],
+  scissors: ['paper', 'lizard'],
+  lizard: ['spock', 'paper'],
+  spock: ['scissors', 'rock']
+};
 
 function prompt(message) {
   console.log(`=> ${message}`);
 }
 
-function displayWinner(choice, computerChoice) {
-  prompt(`You chose ${choice}, computer chose ${computerChoice}`);
+function playerOneWins(playerOneChoice, playerTwoChoice) {
+  return WINNING_COMBINATIONS[playerOneChoice].includes(playerTwoChoice);
+}
 
-  if ((choice === 'rock' && computerChoice === 'scissors') ||
-      (choice === 'paper' && computerChoice === 'rock') ||
-      (choice === 'scissors' && computerChoice === 'paper')) {
+function displayWinner(playerChoice, computerChoice) {
+  prompt(`You chose ${playerChoice}, computer chose ${computerChoice}`);
+
+  if (playerOneWins(playerChoice, computerChoice)) {
     prompt('You win!');
-  } else if ((choice === 'rock' && computerChoice === 'paper') ||
-             (choice === 'paper' && computerChoice === 'scissors') ||
-             (choice === 'scissors' && computerChoice === 'rock')) {
+  } else if (playerOneWins(computerChoice, playerChoice)) {
     prompt('Computer wins!');
   } else {
-    prompt("It's a tie!");
+    prompt('It\'s a tie');
   }
 }
 
