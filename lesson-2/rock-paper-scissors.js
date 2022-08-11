@@ -8,47 +8,62 @@ const WINNING_COMBINATIONS = {
   spock: ['scissors', 'rock']
 };
 
-function prompt(message) {
-  console.log(`=> ${message}`);
+function readUserInput() {
+  return readLine.question('---> ');
 }
 
 function playerOneWins(playerOneChoice, playerTwoChoice) {
   return WINNING_COMBINATIONS[playerOneChoice].includes(playerTwoChoice);
 }
 
-function displayWinner(playerChoice, computerChoice) {
-  prompt(`You chose ${playerChoice}, computer chose ${computerChoice}`);
+function getChoiceFromPlayer() {
+  console.log(`Choose one: ${VALID_CHOICES.join(', ')}`);
+  let playerChoice = readUserInput();
 
-  if (playerOneWins(playerChoice, computerChoice)) {
-    prompt('You win!');
-  } else if (playerOneWins(computerChoice, playerChoice)) {
-    prompt('Computer wins!');
-  } else {
-    prompt('It\'s a tie');
+  while (!VALID_CHOICES.includes(playerChoice)) {
+    console.log("That's not a valid choice");
+    playerChoice = readUserInput();
   }
+
+  return playerChoice;
 }
 
-while (true) {
-  prompt(`Choose one: ${VALID_CHOICES.join(', ')}`);
-  let choice = readLine.question();
-
-  while (!VALID_CHOICES.includes(choice)) {
-    prompt("That's not a valid choice");
-    choice = readLine.question();
-  }
-
+function getChoiceFromComputer() {
   let randomIndex = Math.floor(Math.random() * VALID_CHOICES.length);
   let computerChoice = VALID_CHOICES[randomIndex];
 
-  displayWinner(choice, computerChoice);
+  return computerChoice;
+}
 
-  prompt('Do you want to play again (y/n)?');
-  let answer = readLine.question().toLowerCase();
+function displayWinner(playerChoice, computerChoice) {
+  console.log(`You chose ${playerChoice}, computer chose ${computerChoice}`);
+
+  if (playerOneWins(playerChoice, computerChoice)) {
+    console.log('You win!');
+  } else if (playerOneWins(computerChoice, playerChoice)) {
+    console.log('Computer wins!');
+  } else {
+    console.log('It\'s a tie');
+  }
+}
+
+function userWantsToRepeat() {
+  console.log('Do you want to play again (y/n)?');
+  let answer = readUserInput().toLowerCase();
 
   while (answer[0] !== 'n' && answer[0] !== 'y') {
-    prompt('Please enter "y" or "n".');
-    answer = readLine.question().toLowerCase();
+    console.log('Please enter "y" or "n".');
+    answer = readUserInput().toLowerCase();
   }
 
-  if (answer[0] !== 'y') break;
+  return answer[0] === 'y';
+}
+
+while (true) {
+  let playerChoice = getChoiceFromPlayer();
+  let computerChoice = getChoiceFromComputer();
+
+  displayWinner(playerChoice, computerChoice);
+
+  if (!userWantsToRepeat()) break;
 }
