@@ -30,20 +30,23 @@ const OPTIONS = {
 };
 
 const COMPUTER_OPTIONS = Object.keys(OPTIONS);
+const WINNING_SCORE = 3;
+
+const RULES_DESCRIPTION =
+`You'll play several rounds with the computer.
+The winner of the match is the one who wins ${WINNING_SCORE} rounds first.\n
+*** Remember: ***
+Scissors cuts Paper and decapitates Lizard
+Paper covers Rock and disproves Spock
+Rock crushes Lizard and crushes Scissors
+Lizard poisons Spock and eats Paper
+Spock smashes Scissors and vaporizes Rock\n`;
+
+let roundsCount = 0;
+let playerScore = 0;
+let computerScore = 0;
 
 // Functions declaration
-
-function getValidInputs() {
-  let validInputs = [];
-
-  for (let key in OPTIONS) {
-    let option = OPTIONS[key];
-    let optionNames = Object.values(option);
-    validInputs.push(optionNames);
-  }
-
-  return validInputs.flat();
-}
 
 function readPlayerInput() {
   return readLine.question('---> ');
@@ -59,6 +62,17 @@ function getPlayerChoiceFromInput(playerInput) {
   }
 
   return playerInput;
+}
+
+function getValidInputs() {
+  let validInputs = [];
+
+  for (let key in OPTIONS) {
+    let option = OPTIONS[key];
+    validInputs.push(option.fullName, option.shortName);
+  }
+
+  return validInputs;
 }
 
 function printAvailableOptions() {
@@ -83,7 +97,7 @@ function getChoiceFromPlayer() {
     playerInput = readPlayerInput();
   }
 
-  let playerChoice = getPlayerChoiceFromInput(playerInput);
+  let playerChoice = getPlayerChoiceFromInput(playerInput.toLowerCase());
 
   return playerChoice;
 }
@@ -97,9 +111,9 @@ function getChoiceFromComputer() {
 
 function displayWinner(playerWins, computerWins, gameType) {
   if (playerWins) {
-    console.log(`You win in this ${gameType}!`);
+    console.log(`You win this ${gameType}!`);
   } else if (computerWins) {
-    console.log(`Computer wins in this ${gameType}!`);
+    console.log(`Computer wins this ${gameType}!`);
   } else {
     console.log(`It's a tie in this ${gameType}.`);
   }
@@ -109,24 +123,8 @@ function playerOneWins(playerOneChoice, playerTwoChoice) {
   return OPTIONS[playerOneChoice].winningCombos.includes(playerTwoChoice);
 }
 
-function displayRoundWinner(playerChoice, computerChoice) {
-  let playerWins = playerOneWins(playerChoice, computerChoice);
-  let computerWins = playerOneWins(computerChoice, playerChoice);
-
-  console.log(`You chose ${playerChoice}, computer chose ${computerChoice}`);
-
-  displayWinner(playerWins, computerWins, 'round');
-}
-
-function displayMatchWinner(playerScore, computerScore) {
-  let playerWins = playerScore > computerScore;
-  let computerWins = playerScore < computerScore;
-
-  displayWinner(playerWins, computerWins, 'match');
-}
-
 function displayScore(playerScore, computerScore) {
-  console.log(`\nCurrent score:\nYou ${playerScore} : ${computerScore} Computer\n`);
+  console.log(`\nCurrent score: \nYou ${playerScore} : ${computerScore} Computer\n`);
 }
 
 function userWantsToRepeat() {
@@ -142,41 +140,62 @@ function userWantsToRepeat() {
   return answer[0] === 'y';
 }
 
-// Start of the main program
+function playRound() {
+  roundsCount += 1;
+  console.log(`*** Round #${roundsCount} - Make your choice!\n`);
 
-let roundsCount = 0;
-let playerScore = 0;
-let computerScore = 0;
+  let playerChoice = getChoiceFromPlayer();
+  let computerChoice = getChoiceFromComputer();
+  let playerWonRound = playerOneWins(playerChoice, computerChoice);
+  let computerWonRound = playerOneWins(computerChoice, playerChoice);
 
-console.clear();
-console.log('Hi there! Let\'s play Rock-Paper-Scissors (+ Spock and Lizard)!');
-console.log('You\'ll play several rounds with the computer.\nThe winner in the match is the one who first reaches 3 round wins.\n');
+  if (playerWonRound) {
+    playerScore += 1;
+  } else if (computerWonRound) {
+    computerScore += 1;
+  }
 
-do {
-  do {
-    roundsCount += 1;
-    console.log(`Round #${roundsCount} - Make your choice!\n`);
+  console.log(`\nYou chose ${playerChoice}, computer chose ${computerChoice}`);
+  displayWinner(playerWonRound, computerWonRound, 'round');
+  displayScore(playerScore, computerScore);
+}
 
-    let playerChoice = getChoiceFromPlayer();
-    let computerChoice = getChoiceFromComputer();
-
-    if (playerOneWins(playerChoice, computerChoice)) {
-      playerScore += 1;
-    } else if (playerOneWins(computerChoice, playerChoice)) {
-      computerScore += 1;
-    }
-
-    displayRoundWinner(playerChoice, computerChoice);
-    displayScore(playerScore, computerScore);
-
-  } while ((playerScore < 3) && (computerScore < 3));
-
-  displayMatchWinner(playerScore, computerScore);
-
+function resetMatchStatus() {
   roundsCount = 0;
   playerScore = 0;
   computerScore = 0;
+}
 
+function playMatch() {
+  let playerWonMatch;
+  let computerWonMatch;
+
+  do {
+    playRound();
+    playerWonMatch = playerScore === WINNING_SCORE;
+    computerWonMatch = computerScore === WINNING_SCORE;
+  } while (!playerWonMatch && !computerWonMatch);
+
+  displayWinner(playerWonMatch, computerWonMatch, 'match');
+  resetMatchStatus();
+}
+
+function printGreetingsAndRules() {
+  console.clear();
+  console.log('Hi there! Let\'s play Rock-Paper-Scissors (+ Spock and Lizard)!');
+  console.log(RULES_DESCRIPTION);
+}
+
+function sayBye() {
+  console.log('Bye! See you next time!');
+}
+
+// Start of the main program
+
+printGreetingsAndRules();
+
+do {
+  playMatch();
 } while (userWantsToRepeat());
 
-console.log('Bye! See you next time!');
+sayBye();
