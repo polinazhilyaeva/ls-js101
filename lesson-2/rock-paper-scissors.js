@@ -4,43 +4,40 @@ const VALID_PLAY_AGAIN_ANSWERS = ['y', 'yes', 'n', 'no'];
 const OPTIONS = {
   rock: {
     fullName: 'rock',
-    shortName: 'r'
+    shortName: 'r',
+    winningCombos: ['scissors', 'lizard']
   },
   paper: {
     fullName: 'paper',
-    shortName: 'p'
+    shortName: 'p',
+    winningCombos: ['rock', 'spock']
   },
   scissors: {
     fullName: 'scissors',
-    shortName: 'sc'
+    shortName: 'sc',
+    winningCombos: ['paper', 'lizard']
   },
   lizard: {
     fullName: 'lizard',
-    shortName: 'l'
+    shortName: 'l',
+    winningCombos: ['spock', 'paper']
   },
   spock: {
     fullName: 'spock',
-    shortName: 'sp'
+    shortName: 'sp',
+    winningCombos: ['scissors', 'rock']
   }
 };
 
 const COMPUTER_OPTIONS = Object.keys(OPTIONS);
 
-const WINNING_COMBINATIONS = {
-  rock: ['scissors', 'lizard'],
-  paper: ['rock', 'spock'],
-  scissors: ['paper', 'lizard'],
-  lizard: ['spock', 'paper'],
-  spock: ['scissors', 'rock']
-};
-
 // Functions declaration
 
-function getValidInputs(options) {
+function getValidInputs() {
   let validInputs = [];
 
-  for (let key in options) {
-    let option = options[key];
+  for (let key in OPTIONS) {
+    let option = OPTIONS[key];
     let optionNames = Object.values(option);
     validInputs.push(optionNames);
   }
@@ -52,9 +49,9 @@ function readPlayerInput() {
   return readLine.question('---> ');
 }
 
-function getPlayerChoiceFromInput(playerInput, options) {
-  for (let key in options) {
-    let option = options[key];
+function getPlayerChoiceFromInput(playerInput) {
+  for (let key in OPTIONS) {
+    let option = OPTIONS[key];
 
     if (playerInput === option.shortName) {
       return option.fullName;
@@ -64,36 +61,36 @@ function getPlayerChoiceFromInput(playerInput, options) {
   return playerInput;
 }
 
-function printAvailableOptions(options) {
-  for (let key in options) {
-    let option = options[key];
+function printAvailableOptions() {
+  for (let key in OPTIONS) {
+    let option = OPTIONS[key];
 
     console.log(`Type '${option.shortName}' or '${option.fullName}' to choose ${option.fullName}`);
   }
 }
 
-function getChoiceFromPlayer(options) {
-  const validInputs = getValidInputs(options);
+function getChoiceFromPlayer() {
+  const validInputs = getValidInputs();
 
-  printAvailableOptions(options);
+  printAvailableOptions();
 
   let playerInput = readPlayerInput();
 
   while (!validInputs.includes(playerInput)) {
     console.log(`(!) '${playerInput}' is not a valid choice. Please try again:\n`);
-    printAvailableOptions(options);
+    printAvailableOptions();
 
     playerInput = readPlayerInput();
   }
 
-  let playerChoice = getPlayerChoiceFromInput(playerInput, options);
+  let playerChoice = getPlayerChoiceFromInput(playerInput);
 
   return playerChoice;
 }
 
-function getChoiceFromComputer(computerOptions) {
-  let randomIndex = Math.floor(Math.random() * computerOptions.length);
-  let computerChoice = computerOptions[randomIndex];
+function getChoiceFromComputer() {
+  let randomIndex = Math.floor(Math.random() * COMPUTER_OPTIONS.length);
+  let computerChoice = COMPUTER_OPTIONS[randomIndex];
 
   return computerChoice;
 }
@@ -109,7 +106,7 @@ function displayWinner(playerWins, computerWins, gameType) {
 }
 
 function playerOneWins(playerOneChoice, playerTwoChoice) {
-  return WINNING_COMBINATIONS[playerOneChoice].includes(playerTwoChoice);
+  return OPTIONS[playerOneChoice].winningCombos.includes(playerTwoChoice);
 }
 
 function displayRoundWinner(playerChoice, computerChoice) {
@@ -160,8 +157,8 @@ do {
     roundsCount += 1;
     console.log(`Round #${roundsCount} - Make your choice!\n`);
 
-    let playerChoice = getChoiceFromPlayer(OPTIONS);
-    let computerChoice = getChoiceFromComputer(COMPUTER_OPTIONS);
+    let playerChoice = getChoiceFromPlayer();
+    let computerChoice = getChoiceFromComputer();
 
     if (playerOneWins(playerChoice, computerChoice)) {
       playerScore += 1;
