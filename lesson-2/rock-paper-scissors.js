@@ -1,5 +1,28 @@
 const readLine = require('readline-sync');
-const VALID_CHOICES = ['rock', 'paper', 'scissors', 'lizard', 'spock'];
+const VALID_PLAY_AGAIN_ANSWERS = ['y', 'yes', 'n', 'no'];
+const OPTIONS = {
+  rock: {
+    fullName: 'rock',
+    shortName: 'r'
+  },
+  paper: {
+    fullName: 'paper',
+    shortName: 'p'
+  },
+  scissors: {
+    fullName: 'scissors',
+    shortName: 'sc'
+  },
+  lizard: {
+    fullName: 'lizard',
+    shortName: 'l'
+  },
+  spock: {
+    fullName: 'spock',
+    shortName: 'sp'
+  }
+};
+
 const WINNING_COMBINATIONS = {
   rock: ['scissors', 'lizard'],
   paper: ['rock', 'spock'],
@@ -8,31 +31,68 @@ const WINNING_COMBINATIONS = {
   spock: ['scissors', 'rock']
 };
 
-function readUserInput() {
+// Functions declaration
+
+function getValidInputs(options) {
+  let validInputs = [];
+
+  for (let key in options) {
+    let option = options[key];
+    let optionNames = Object.values(option);
+    validInputs.push(optionNames);
+  }
+
+  return validInputs.flat();
+}
+
+function readPlayerInput() {
   return readLine.question('---> ');
 }
 
-function playerOneWins(playerOneChoice, playerTwoChoice) {
-  return WINNING_COMBINATIONS[playerOneChoice].includes(playerTwoChoice);
+function getPlayerChoiceFromInput(playerInput) {
+  for (let option in OPTIONS) {
+    let optionShortName = OPTIONS[option].shortName;
+    let optionFullName = OPTIONS[option].fullName;
+
+    if (playerInput === optionShortName) {
+      return optionFullName;
+    }
+  }
+
+  return playerInput;
 }
 
-function getChoiceFromPlayer() {
-  console.log(`Choose one: ${VALID_CHOICES.join(', ')}`);
-  let playerChoice = readUserInput();
+function getChoiceFromPlayer(options) {
+  const validInputs = getValidInputs(options);
 
-  while (!VALID_CHOICES.includes(playerChoice)) {
-    console.log("That's not a valid choice");
-    playerChoice = readUserInput();
+  for (let option in options) {
+    let optionShortName = options[option].shortName;
+    let optionFullName = options[option].fullName;
+    console.log(`Type '${optionShortName}' or '${optionFullName}' to choose ${optionFullName}`);
   }
+
+  let playerInput = readPlayerInput();
+
+  while (!validInputs.includes(playerInput)) {
+    console.log('That\'s not a valid choice.');
+    playerInput = readPlayerInput();
+  }
+
+  let playerChoice = getPlayerChoiceFromInput(playerInput);
 
   return playerChoice;
 }
 
-function getChoiceFromComputer() {
-  let randomIndex = Math.floor(Math.random() * VALID_CHOICES.length);
-  let computerChoice = VALID_CHOICES[randomIndex];
+function getChoiceFromComputer(options) {
+  const validChoices = Object.keys(options);
+  let randomIndex = Math.floor(Math.random() * validChoices.length);
+  let computerChoice = validChoices[randomIndex];
 
   return computerChoice;
+}
+
+function playerOneWins(playerOneChoice, playerTwoChoice) {
+  return WINNING_COMBINATIONS[playerOneChoice].includes(playerTwoChoice);
 }
 
 function displayWinner(playerChoice, computerChoice) {
@@ -49,21 +109,21 @@ function displayWinner(playerChoice, computerChoice) {
 
 function userWantsToRepeat() {
   console.log('Do you want to play again (y/n)?');
-  let answer = readUserInput().toLowerCase();
+  let answer = readPlayerInput().toLowerCase();
 
-  while (answer[0] !== 'n' && answer[0] !== 'y') {
-    console.log('Please enter "y" or "n".');
-    answer = readUserInput().toLowerCase();
+  while (!VALID_PLAY_AGAIN_ANSWERS.includes(answer)) {
+    console.log('Please enter "y" ("yes") or "n" ("no").');
+    answer = readPlayerInput().toLowerCase();
   }
 
   return answer[0] === 'y';
 }
 
-while (true) {
-  let playerChoice = getChoiceFromPlayer();
-  let computerChoice = getChoiceFromComputer();
+// Start of the main program
+
+do {
+  let playerChoice = getChoiceFromPlayer(OPTIONS);
+  let computerChoice = getChoiceFromComputer(OPTIONS);
 
   displayWinner(playerChoice, computerChoice);
-
-  if (!userWantsToRepeat()) break;
-}
+} while (userWantsToRepeat());
