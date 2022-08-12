@@ -1,5 +1,6 @@
 const readLine = require('readline-sync');
 const VALID_PLAY_AGAIN_ANSWERS = ['y', 'yes', 'n', 'no'];
+
 const OPTIONS = {
   rock: {
     fullName: 'rock',
@@ -22,6 +23,8 @@ const OPTIONS = {
     shortName: 'sp'
   }
 };
+
+const COMPUTER_OPTIONS = Object.keys(OPTIONS);
 
 const WINNING_COMBINATIONS = {
   rock: ['scissors', 'lizard'],
@@ -49,44 +52,48 @@ function readPlayerInput() {
   return readLine.question('---> ');
 }
 
-function getPlayerChoiceFromInput(playerInput) {
-  for (let option in OPTIONS) {
-    let optionShortName = OPTIONS[option].shortName;
-    let optionFullName = OPTIONS[option].fullName;
+function getPlayerChoiceFromInput(playerInput, options) {
+  for (let key in options) {
+    let option = options[key];
 
-    if (playerInput === optionShortName) {
-      return optionFullName;
+    if (playerInput === option.shortName) {
+      return option.fullName;
     }
   }
 
   return playerInput;
 }
 
+function printAvailableOptions(options) {
+  for (let key in options) {
+    let option = options[key];
+
+    console.log(`Type '${option.shortName}' or '${option.fullName}' to choose ${option.fullName}`);
+  }
+}
+
 function getChoiceFromPlayer(options) {
   const validInputs = getValidInputs(options);
 
-  for (let option in options) {
-    let optionShortName = options[option].shortName;
-    let optionFullName = options[option].fullName;
-    console.log(`Type '${optionShortName}' or '${optionFullName}' to choose ${optionFullName}`);
-  }
+  printAvailableOptions(options);
 
   let playerInput = readPlayerInput();
 
   while (!validInputs.includes(playerInput)) {
-    console.log('That\'s not a valid choice.');
+    console.log(`(!) '${playerInput}' is not a valid choice. Please try again:\n`);
+    printAvailableOptions(options);
+
     playerInput = readPlayerInput();
   }
 
-  let playerChoice = getPlayerChoiceFromInput(playerInput);
+  let playerChoice = getPlayerChoiceFromInput(playerInput, options);
 
   return playerChoice;
 }
 
-function getChoiceFromComputer(options) {
-  const validChoices = Object.keys(options);
-  let randomIndex = Math.floor(Math.random() * validChoices.length);
-  let computerChoice = validChoices[randomIndex];
+function getChoiceFromComputer(computerOptions) {
+  let randomIndex = Math.floor(Math.random() * computerOptions.length);
+  let computerChoice = computerOptions[randomIndex];
 
   return computerChoice;
 }
@@ -109,6 +116,7 @@ function displayWinner(playerChoice, computerChoice) {
 
 function userWantsToRepeat() {
   console.log('Do you want to play again (y/n)?');
+
   let answer = readPlayerInput().toLowerCase();
 
   while (!VALID_PLAY_AGAIN_ANSWERS.includes(answer)) {
@@ -121,9 +129,14 @@ function userWantsToRepeat() {
 
 // Start of the main program
 
+console.clear();
+console.log('Hi there! Let\'s play Rock-Paper-Scissors (+ Spock and Lizard)!\n');
+
 do {
   let playerChoice = getChoiceFromPlayer(OPTIONS);
-  let computerChoice = getChoiceFromComputer(OPTIONS);
+  let computerChoice = getChoiceFromComputer(COMPUTER_OPTIONS);
 
   displayWinner(playerChoice, computerChoice);
 } while (userWantsToRepeat());
+
+console.log('Bye! See you next time!');
