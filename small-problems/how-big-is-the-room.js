@@ -34,7 +34,16 @@ while (!['1', '2'].includes(userInputTypeChoice)) {
   userInputTypeChoice = readLine.prompt();
 }
 
-let inputType = (userInputTypeChoice === '1') ? 'meters' : 'feet';
+let inputType;
+let conversionType;
+
+if (userInputTypeChoice === '1') {
+  inputType = 'meters';
+  conversionType = 'feet';
+} else {
+  inputType = 'feet';
+  conversionType = 'meters';
+}
 
 console.log(`Enter the length of the room in ${inputType}: `);
 let length = Number(readLine.prompt());
@@ -42,15 +51,15 @@ let length = Number(readLine.prompt());
 console.log(`Enter the width of the room in ${inputType}: `);
 let width = Number(readLine.prompt());
 
-let areaMeters;
-let areaFeet;
+let area;
+let areaConverted;
+
+area = length * width;
 
 if (inputType === 'meters') {
-  areaMeters = length * width;
-  areaFeet = areaMeters * SQUARE_FEET_IN_SQUARE_METER;
+  areaConverted = area * SQUARE_FEET_IN_SQUARE_METER;
 } else {
-  areaFeet = length * width;
-  areaMeters = areaFeet / SQUARE_FEET_IN_SQUARE_METER;
+  areaConverted = area / SQUARE_FEET_IN_SQUARE_METER;
 }
 
-console.log(`The area of the room is ${areaMeters.toFixed(2)} square meters (${areaFeet.toFixed(2)} square feet).`);
+console.log(`The area of the room is ${area.toFixed(2)} square ${inputType} (${areaConverted.toFixed(2)} square ${conversionType}).`);
